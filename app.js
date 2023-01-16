@@ -1,10 +1,15 @@
+const apiUrl = 'https://api.adviceslip.com/advice';
 
-fetch('https://api.adviceslip.com/advice')
-  .then((response) => response.json())
-  .then((data) => {
-    document.getElementById("number").textContent = data.slip.id;
-    document.getElementById("quote").textContent = data.slip.advice;
-  });
+async function genAdvice() {
+  const response = await fetch(apiUrl, {cache: "no-cache"});
+  const data = await response.json();
+  
+  document.getElementById("number").textContent = data.slip.id;
+  document.getElementById("quote").textContent = data.slip.advice;
+}
 
-document.getElementById("btn").onclick = () => location.reload(true);
-//Reloads the current page from the server
+document.getElementById("btn").onclick = () => genAdvice();
+
+genAdvice();
+
+//firefox doesn't refresh server data without cache option
